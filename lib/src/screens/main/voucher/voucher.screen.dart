@@ -161,7 +161,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
                   itemCount: provider.vouchers.length,
                   itemBuilder: (context, index) {
                     final voucher = provider.vouchers[index];
-                      
+
                     String code = voucher.code;
                     String firstThree = code.substring(0, 3);
                     String lastThree = code.substring(code.length - 3);
@@ -170,15 +170,14 @@ class _VoucherScreenState extends State<VoucherScreen> {
                     String formattedDiscountwithdraw =
                         NumberFormat('#,##0').format(voucher.discount - 6);
                     String formattedconvert = NumberFormat('#,##0').format(
-                        voucher.discount *
-                            double.parse('${33.888 ?? 31.888}'));
+                        voucher.discount * double.parse('${33.888 ?? 31.888}'));
                     NumberFormat('#,##0').format(voucher.discount);
                     // currencySymbol =
                     //     getCurrencySymbol('${voucher.voucherCurrency}');
-                      
+
                     return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5, right: 5, bottom: 5),
+                      padding:
+                          const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -231,14 +230,11 @@ class _VoucherScreenState extends State<VoucherScreen> {
                                       bottomRight: Radius.circular(8)),
                                   border: Border(
                                       top: BorderSide(
-                                          color: Color(0xffF3F4F6),
-                                          width: 1),
+                                          color: Color(0xffF3F4F6), width: 1),
                                       bottom: BorderSide(
-                                          color: Color(0xffF3F4F6),
-                                          width: 1),
+                                          color: Color(0xffF3F4F6), width: 1),
                                       right: BorderSide(
-                                          color: Color(0xffF3F4F6),
-                                          width: 1))),
+                                          color: Color(0xffF3F4F6), width: 1))),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -272,8 +268,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
                                                                 'Voucher code: ',
                                                           ),
                                                           TextSpan(
-                                                            text:
-                                                                firstThree,
+                                                            text: firstThree,
                                                           ),
                                                           TextSpan(
                                                             text: '***',
@@ -329,7 +324,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
                         ],
                       ),
                     );
-                      
+
                     // return ListTile(
                     //   title: Text('Discount: ${voucher.discount.toString()}'),
                     //   subtitle: Text('Code: ${voucher.code}'),
