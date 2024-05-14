@@ -99,173 +99,158 @@ class _VoucherScreenState extends State<VoucherScreen> {
   Widget build(BuildContext context) {
     return Consumer<ProfileProvider>(builder: (context, provider, child) {
       var data = provider.contests;
-      return RefreshIndicator(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        color: Colors.white,
-        backgroundColor: Colors.red,
-        // onRefresh: _fetchCurrencyData,
-        onRefresh: loadData,
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            title: Column(
-              children: [
-                Text(
-                  'Vouchers',
-                  style: PageService.headerStyle,
+      return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Column(
+            children: [
+              Text(
+                'Vouchers',
+                style: PageService.headerStyle,
+              ),
+              Text(
+                'Spendable on 100pay partner site',
+                style: TextStyle(
+                  fontSize: 9,
+                  color: AppColor.gray8,
+                  fontWeight: FontWeight.w400,
                 ),
-                Text(
-                  'Spendable on 100pay partner site',
-                  style: TextStyle(
-                    fontSize: 9,
-                    color: AppColor.gray8,
-                    fontWeight: FontWeight.w400,
-                  ),
-                )
-              ],
-            ),
-            // actions: [
-            //   GestureDetector(
-            //     onTap: () {
-            //       connected == true ? null : Connect1(context);
-            //     },
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(15.0),
-            //       child: Text(
-            //         connected == true ? 'Connected' : 'Connect',
-            //         style: TextStyle(
-            //           color: Color.fromRGBO(
-            //             22,
-            //             163,
-            //             74,
-            //             1,
-            //           ),
-            //           fontSize: 16,
-            //           fontWeight: FontWeight.w500,
-            //         ),
-            //       ),
-            //     ),
-            //   )
-            // ],
+              )
+            ],
           ),
-          body: Center(
-            child: Consumer<VoucherProvider>(
-              builder: (context, provider, _) {
-                if (provider.isLoading) {
-                  return CircularProgressIndicator();
-                } else if (provider.vouchers.isEmpty) {
-                  return RefreshIndicator(
-                    triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                    color: Colors.white,
-                    backgroundColor: Colors.red,
-                    // onRefresh: _fetchCurrencyData,
-                    onRefresh: loadData,
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/vouchers.png',
-                        width: 268,
-                        height: 143.91,
-                      ),
-                    ),
-                  );
-                } else {
-                  return RefreshIndicator(
-                    triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                    color: Colors.white,
-                    backgroundColor: Colors.red,
-                    // onRefresh: _fetchCurrencyData,
-                    onRefresh: loadData,
-                    child: ListView.builder(
-                      itemCount: provider.vouchers.length,
-                      itemBuilder: (context, index) {
-                        final voucher = provider.vouchers[index];
-
-                        String code = voucher.code;
-                        String firstThree = code.substring(0, 3);
-                        String lastThree = code.substring(code.length - 3);
-                        String formattedDiscount =
-                            NumberFormat('#,##0').format(voucher.discount);
-                        String formattedDiscountwithdraw =
-                            NumberFormat('#,##0').format(voucher.discount - 6);
-                        String formattedconvert = NumberFormat('#,##0').format(
-                            voucher.discount *
-                                double.parse('${33.888 ?? 31.888}'));
+          // actions: [
+          //   GestureDetector(
+          //     onTap: () {
+          //       connected == true ? null : Connect1(context);
+          //     },
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(15.0),
+          //       child: Text(
+          //         connected == true ? 'Connected' : 'Connect',
+          //         style: TextStyle(
+          //           color: Color.fromRGBO(
+          //             22,
+          //             163,
+          //             74,
+          //             1,
+          //           ),
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w500,
+          //         ),
+          //       ),
+          //     ),
+          //   )
+          // ],
+        ),
+        body: Center(
+          child: Consumer<VoucherProvider>(
+            builder: (context, provider, _) {
+              if (provider.isLoading) {
+                return CircularProgressIndicator();
+              } else if (provider.vouchers.isEmpty) {
+                return Center(
+                  child: Image.asset(
+                    'assets/images/vouchers.png',
+                    width: 268,
+                    height: 143.91,
+                  ),
+                );
+              } else {
+                return ListView.builder(
+                  itemCount: provider.vouchers.length,
+                  itemBuilder: (context, index) {
+                    final voucher = provider.vouchers[index];
+                      
+                    String code = voucher.code;
+                    String firstThree = code.substring(0, 3);
+                    String lastThree = code.substring(code.length - 3);
+                    String formattedDiscount =
                         NumberFormat('#,##0').format(voucher.discount);
-                        // currencySymbol =
-                        //     getCurrencySymbol('${voucher.voucherCurrency}');
-
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5, right: 5, bottom: 5),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: ShapeDecoration(
-                                  shape: SwTicketBorder(
-                                    radius: 8,
-                                    fillColor: AppColor.primaryColor,
-                                    borderColor: AppColor.primaryColor,
-                                    borderWidth: 2,
-                                    bottomLeft: false,
-                                    bottomRight: true,
-                                    topLeft: false,
-                                    topRight: true,
+                    String formattedDiscountwithdraw =
+                        NumberFormat('#,##0').format(voucher.discount - 6);
+                    String formattedconvert = NumberFormat('#,##0').format(
+                        voucher.discount *
+                            double.parse('${33.888 ?? 31.888}'));
+                    NumberFormat('#,##0').format(voucher.discount);
+                    // currencySymbol =
+                    //     getCurrencySymbol('${voucher.voucherCurrency}');
+                      
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          left: 5, right: 5, bottom: 5),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(15),
+                            decoration: ShapeDecoration(
+                              shape: SwTicketBorder(
+                                radius: 8,
+                                fillColor: AppColor.primaryColor,
+                                borderColor: AppColor.primaryColor,
+                                borderWidth: 2,
+                                bottomLeft: false,
+                                bottomRight: true,
+                                topLeft: false,
+                                topRight: true,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(
+                                      text: '\$PAY ${formattedDiscount}',
+                                      style: TextStyle(
+                                          color: AppColor.white,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700)),
+                                ])),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  'NGN $formattedconvert',
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: AppColor.white,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    RichText(
-                                        text: TextSpan(children: [
-                                      TextSpan(
-                                          text: '\$PAY ${formattedDiscount}',
-                                          style: TextStyle(
-                                              color: AppColor.white,
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w700)),
-                                    ])),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      'NGN $formattedconvert',
-                                      style: TextStyle(
-                                        fontSize: 9,
-                                        color: AppColor.white,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Flexible(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 4),
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(8),
-                                          bottomRight: Radius.circular(8)),
-                                      border: Border(
-                                          top: BorderSide(
-                                              color: Color(0xffF3F4F6),
-                                              width: 1),
-                                          bottom: BorderSide(
-                                              color: Color(0xffF3F4F6),
-                                              width: 1),
-                                          right: BorderSide(
-                                              color: Color(0xffF3F4F6),
-                                              width: 1))),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
+                              ],
+                            ),
+                          ),
+                          Flexible(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 4),
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(8),
+                                      bottomRight: Radius.circular(8)),
+                                  border: Border(
+                                      top: BorderSide(
+                                          color: Color(0xffF3F4F6),
+                                          width: 1),
+                                      bottom: BorderSide(
+                                          color: Color(0xffF3F4F6),
+                                          width: 1),
+                                      right: BorderSide(
+                                          color: Color(0xffF3F4F6),
+                                          width: 1))),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
@@ -273,153 +258,147 @@ class _VoucherScreenState extends State<VoucherScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          _copyToClipboard(
-                                                              context, code);
-                                                        },
-                                                        child: Text.rich(
+                                                Center(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      _copyToClipboard(
+                                                          context, code);
+                                                    },
+                                                    child: Text.rich(
+                                                      TextSpan(
+                                                        children: [
                                                           TextSpan(
-                                                            children: [
-                                                              TextSpan(
-                                                                text:
-                                                                    'Voucher code: ',
-                                                              ),
-                                                              TextSpan(
-                                                                text:
-                                                                    firstThree,
-                                                              ),
-                                                              TextSpan(
-                                                                text: '***',
-                                                              ),
-                                                              TextSpan(
-                                                                text: lastThree,
-                                                              ),
-                                                            ],
-                                                            style: TextStyle(
-                                                              fontSize: 10,
-                                                            ),
+                                                            text:
+                                                                'Voucher code: ',
                                                           ),
+                                                          TextSpan(
+                                                            text:
+                                                                firstThree,
+                                                          ),
+                                                          TextSpan(
+                                                            text: '***',
+                                                          ),
+                                                          TextSpan(
+                                                            text: lastThree,
+                                                          ),
+                                                        ],
+                                                        style: TextStyle(
+                                                          fontSize: 10,
                                                         ),
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
+                                                    ),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      Flexible(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            connected == true
-                                                ? Use(context,
-                                                    formattedDiscountwithdraw)
-                                                : Connect1(context);
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: const BoxDecoration(
-                                                color: Color(
-                                                  0xfff20732,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(15))),
-                                            child: const Text(
-                                              'Use voucher',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 9,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-
-                        // return ListTile(
-                        //   title: Text('Discount: ${voucher.discount.toString()}'),
-                        //   subtitle: Text('Code: ${voucher.code}'),
-                        //   // Add more fields as needed
-                        // );
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
+                                  Flexible(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        connected == true
+                                            ? Use(context,
+                                                formattedDiscountwithdraw)
+                                            : Connect1(context);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: const BoxDecoration(
+                                            color: Color(
+                                              0xfff20732,
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                        child: const Text(
+                                          'Use voucher',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                      
+                    // return ListTile(
+                    //   title: Text('Discount: ${voucher.discount.toString()}'),
+                    //   subtitle: Text('Code: ${voucher.code}'),
+                    //   // Add more fields as needed
+                    // );
+                  },
+                );
+              }
+            },
           ),
-          // RefreshIndicator(
-          //   triggerMode: RefreshIndicatorTriggerMode.anywhere,
-          //   color: Colors.white,
-          //   backgroundColor: Colors.red,
-          //   onRefresh: getContest,
-          //   child: Consumer<ProfileProvider>(builder: (context, provider, child) {
-          //     var data = provider.contests;
-          // Container(
-          //     padding: const EdgeInsets.symmetric(horizontal: 3),
-          //     child: FutureBuilder<List<Voucher>>(
-          //         future: provider.getVouchers(),
-          //         builder: (context, snapshot) {
-          //           if (snapshot.connectionState == ConnectionState.waiting) {
-          //             return Center(
-          //               child: CircularProgressIndicator(),
-          //             );
-          //           } else if (snapshot.hasError) {
-          //             return Center(
-          //               child: Text(
-          //                 "An error occurred when trying to retrive your vouchers from the server",
-          //                 textAlign: TextAlign.center,
-          //               ),
-          //             );
-          //           } else if (snapshot.data!.isEmpty) {
-          //             return Center(
-          //               child: Image.asset(
-          //                 'assets/images/vouchers.png',
-          //                 width: 268,
-          //                 height: 143.91,
-          //               ),
-          //             );
-          //           } else {
-          //             return CustomScrollView(
-          //               slivers: <Widget>[
-          //                 SliverPadding(
-          //                   padding: EdgeInsets.symmetric(horizontal: 3),
-          //                   sliver: SliverList(
-          //                     delegate: SliverChildBuilderDelegate(
-          //                       (BuildContext context, int index) {
-          //                         return VoucherWidget(
-          //                           voucher: snapshot.data![index],
-          //                         );
-          //                       },
-          //                       childCount: snapshot.data!.length,
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             );
-          //             // ListView.builder(
-          //             //   itemCount: snapshot.data!.length,
-          //             //   itemBuilder: (context, index) {
-          //             //     return VoucherWidget(
-          //             //         voucher: snapshot.data![index]);
-          //             //   },
-          //             // );
-          //           }
-          //         })),
         ),
+        // RefreshIndicator(
+        //   triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        //   color: Colors.white,
+        //   backgroundColor: Colors.red,
+        //   onRefresh: getContest,
+        //   child: Consumer<ProfileProvider>(builder: (context, provider, child) {
+        //     var data = provider.contests;
+        // Container(
+        //     padding: const EdgeInsets.symmetric(horizontal: 3),
+        //     child: FutureBuilder<List<Voucher>>(
+        //         future: provider.getVouchers(),
+        //         builder: (context, snapshot) {
+        //           if (snapshot.connectionState == ConnectionState.waiting) {
+        //             return Center(
+        //               child: CircularProgressIndicator(),
+        //             );
+        //           } else if (snapshot.hasError) {
+        //             return Center(
+        //               child: Text(
+        //                 "An error occurred when trying to retrive your vouchers from the server",
+        //                 textAlign: TextAlign.center,
+        //               ),
+        //             );
+        //           } else if (snapshot.data!.isEmpty) {
+        //             return Center(
+        //               child: Image.asset(
+        //                 'assets/images/vouchers.png',
+        //                 width: 268,
+        //                 height: 143.91,
+        //               ),
+        //             );
+        //           } else {
+        //             return CustomScrollView(
+        //               slivers: <Widget>[
+        //                 SliverPadding(
+        //                   padding: EdgeInsets.symmetric(horizontal: 3),
+        //                   sliver: SliverList(
+        //                     delegate: SliverChildBuilderDelegate(
+        //                       (BuildContext context, int index) {
+        //                         return VoucherWidget(
+        //                           voucher: snapshot.data![index],
+        //                         );
+        //                       },
+        //                       childCount: snapshot.data!.length,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ],
+        //             );
+        //             // ListView.builder(
+        //             //   itemCount: snapshot.data!.length,
+        //             //   itemBuilder: (context, index) {
+        //             //     return VoucherWidget(
+        //             //         voucher: snapshot.data![index]);
+        //             //   },
+        //             // );
+        //           }
+        //         })),
       );
     });
   }
