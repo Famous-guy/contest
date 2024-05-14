@@ -52,114 +52,121 @@ class _OtpScreenState extends State<OtpScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 28),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Enter 6 digit code',
-                      style: PageService.bigHeaderStylesmall,
-                    ),
-                    PageService.textSpace,
-                    Column(
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: 600, // Adjust the max width as needed
+          ),
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 28),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Enter 6 digits code you received on your email',
-                          style: PageService.labelStyle,
+                          'Enter 6 digit code',
+                          style: PageService.bigHeaderStylesmall,
                         ),
-                        Text(
-                          widget.email,
-                          style: PageService.labelStylered,
+                        PageService.textSpace,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Enter 6 digits code you received on your email',
+                              style: PageService.labelStyle,
+                            ),
+                            Text(
+                              widget.email,
+                              style: PageService.labelStylered,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    PageService.textSpaceL,
-                    SizedBox(
-                      height: 48,
-                      width: MediaQuery.of(context).size.width,
-                      child: OtpTextField(
-                        keyboardType: TextInputType.number,
-                        numberOfFields: 6,
-                        borderColor: Colors.black,
-                        borderRadius: BorderRadius.circular(4),
-                        borderWidth: 3,
-                        showFieldAsBox: true,
-                        onCodeChanged: (String code) {
-                          if (code.characters == 6) {
-                            _setLoading(
-                                true); // Display loader when OTP is complete
-                          }
+                        SizedBox(
+                          height: 20,
+                        ),
+                        PageService.textSpaceL,
+                        SizedBox(
+                          height: 48,
+                          width: MediaQuery.of(context).size.width,
+                          child: OtpTextField(
+                            keyboardType: TextInputType.number,
+                            numberOfFields: 6,
+                            borderColor: Colors.black,
+                            borderRadius: BorderRadius.circular(4),
+                            borderWidth: 3,
+                            showFieldAsBox: true,
+                            onCodeChanged: (String code) {
+                              if (code.characters == 6) {
+                                _setLoading(
+                                    true); // Display loader when OTP is complete
+                              }
 
-                          // Handle validation or checks here
-                        },
-                        onSubmit: (value) {
-                          nextPage(context,
-                              page: ChangePasswordScreen(
-                                otp: value.toString(),
-                                email: widget.email,
-                              ));
-                        },
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('If you didn’t receive the code? '),
-                        TextButton(
-                          onPressed: () {
+                              // Handle validation or checks here
+                            },
+                            onSubmit: (value) {
+                              nextPage(context,
+                                  page: ChangePasswordScreen(
+                                    otp: value.toString(),
+                                    email: widget.email,
+                                  ));
+                            },
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('If you didn’t receive the code? '),
+                            TextButton(
+                              onPressed: () {
+                                nextPage(context,
+                                    page: ChangePasswordScreen(
+                                      otp: _controllers.toString(),
+                                      email: widget.email,
+                                    ));
+                              },
+                              child: Text(
+                                'Resend',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(242, 7, 50, 1),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        PageService.textSpaceL,
+                        PageService.textSpace,
+                        customButton(
+                          context,
+                          onTap: () async {
                             nextPage(context,
                                 page: ChangePasswordScreen(
                                   otp: _controllers.toString(),
                                   email: widget.email,
                                 ));
+                            appLog(_controllers.toString());
                           },
-                          child: Text(
-                            'Resend',
-                            style: TextStyle(
-                              color: Color.fromRGBO(242, 7, 50, 1),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+                          text: 'Verify Code',
+                          textColor: Colors.white,
+                          bgColor: Colors.red,
                         ),
+                        PageService.textSpaceL,
+                        PageService.textSpaceL,
                       ],
                     ),
-                    PageService.textSpaceL,
-                    PageService.textSpace,
-                    customButton(
-                      context,
-                      onTap: () async {
-                        nextPage(context,
-                            page: ChangePasswordScreen(
-                              otp: _controllers.toString(),
-                              email: widget.email,
-                            ));
-                        appLog(_controllers.toString());
-                      },
-                      text: 'Verify Code',
-                      textColor: Colors.white,
-                      bgColor: Colors.red,
-                    ),
-                    PageService.textSpaceL,
-                    PageService.textSpaceL,
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

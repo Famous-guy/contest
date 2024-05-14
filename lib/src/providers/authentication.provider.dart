@@ -188,6 +188,8 @@ class AuthenticationProvider extends ChangeNotifier {
     }
   }
 
+
+
   Future sendEmailOtp({
     String? email,
     BuildContext? context,

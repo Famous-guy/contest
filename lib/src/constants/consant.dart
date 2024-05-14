@@ -11,6 +11,5 @@ class AppString {
   static const verifyOTPAndRegisterUrl = "${baseUrl}auth/verifyOTPAndRegister";
   static const setNewPassword = "${baseUrl}resetPassword";
   static const updateProfile = "${baseUrl}user/store";
-  
+  // ''
 }
-

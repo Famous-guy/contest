@@ -1,4 +1,5 @@
 import 'package:contest_app/src/providers/user.profile.provider.dart';
+import 'package:contest_app/src/providers/voucher.dart';
 import 'package:contest_app/src/providers/won.dart';
 import 'package:contest_app/src/src.dart';
 
@@ -36,6 +37,8 @@ class _MainActivityPageState extends State<MainActivityPage> {
       context.read<UserProfileProvider>().fetchUserProfile();
       context.read<ProfileProvider>().getVouchers();
       context.read<ContestProvider>().fetchContestData();
+      context.read<ProfileProvider>().getVouchers();
+      context.read<VoucherProvider>().fetchVouchers();
     });
 
     super.initState();
@@ -98,44 +101,53 @@ class _MainActivityPageState extends State<MainActivityPage> {
   Widget build(BuildContext context) {
     return Consumer<ModelProviders>(
       builder: (context, counter, child) {
-        return Scaffold(
-          body: bottomNavPages[counter.bottomCounter],
-          bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(
-              splashColor: Colors.transparent,
+        return Center(
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: 600, // Adjust the max width as needed
             ),
-            child: BottomNavigationBar(
-              selectedItemColor: Colors.red,
-              elevation: 0,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: const Color(0xff15152D),
-              unselectedItemColor: Colors.white,
-              showSelectedLabels: true,
-              showUnselectedLabels: true,
-              unselectedLabelStyle: const TextStyle(color: Colors.white),
-              onTap: (value) {
-                counter.changeCounter(value);
-              },
-              currentIndex: counter.bottomCounter,
-              items: List.generate(bottomNavItems.length, (index) {
-                final data = bottomNavItems[index];
-                return BottomNavigationBarItem(
-                  backgroundColor: const Color(0xff15152D),
-                  tooltip: data['title'],
-                  icon: Column(
-                    children: [
-                      Image.asset(
-                        data['icon']!,
-                        width: 21,
-                        color: counter.bottomCounter == index
-                            ? AppColor.primaryColor
-                            : null,
-                      ),
-                    ],
+            child: Scaffold(
+              body: bottomNavPages[counter.bottomCounter],
+              bottomNavigationBar: Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                ),
+                child: SafeArea(
+                  child: BottomNavigationBar(
+                    selectedItemColor: Colors.red,
+                    elevation: 0,
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: const Color(0xff15152D),
+                    unselectedItemColor: Colors.white,
+                    showSelectedLabels: true,
+                    showUnselectedLabels: true,
+                    unselectedLabelStyle: const TextStyle(color: Colors.white),
+                    onTap: (value) {
+                      counter.changeCounter(value);
+                    },
+                    currentIndex: counter.bottomCounter,
+                    items: List.generate(bottomNavItems.length, (index) {
+                      final data = bottomNavItems[index];
+                      return BottomNavigationBarItem(
+                        backgroundColor: const Color(0xff15152D),
+                        tooltip: data['title'],
+                        icon: Column(
+                          children: [
+                            Image.asset(
+                              data['icon']!,
+                              width: 21,
+                              color: counter.bottomCounter == index
+                                  ? AppColor.primaryColor
+                                  : null,
+                            ),
+                          ],
+                        ),
+                        label: data['title']!,
+                      );
+                    }),
                   ),
-                  label: data['title']!,
-                );
-              }),
+                ),
+              ),
             ),
           ),
         );
@@ -149,7 +161,7 @@ class _MainActivityPageState extends State<MainActivityPage> {
         ),
         SearchScreen(),
         LeadershipScreen(),
-        const VoucherScreen(),
+        VoucherScreen(),
         Profile(amount: _amount, currency: currencySymbol, username: _username),
       ];
 }

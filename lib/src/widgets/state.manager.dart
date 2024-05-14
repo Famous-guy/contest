@@ -1,5 +1,8 @@
+import 'package:contest_app/src/providers/connect.dart';
+import 'package:contest_app/src/providers/connectpos.dart';
 import 'package:contest_app/src/providers/rohashprovider.dart';
 import 'package:contest_app/src/providers/user.profile.provider.dart';
+import 'package:contest_app/src/providers/voucher.dart';
 import 'package:contest_app/src/providers/won.dart';
 import 'package:contest_app/src/src.dart';
 
@@ -30,7 +33,10 @@ class StateManager extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AvatarProvider()),
         ChangeNotifierProvider(create: (_) => Rohash()),
         ChangeNotifierProvider(create: (_) => ContestProvider()),
-        ChangeNotifierProvider(create: (_) => LeaderboardProvider())
+        ChangeNotifierProvider(create: (_) => LeaderboardProvider()),
+        ChangeNotifierProvider(create: (_) => VoucherProvider()),
+        ChangeNotifierProvider(create: (_) => SendPos()),
+        ChangeNotifierProvider(create: (_) => UserDataProvider())
       ],
       child: child,
     );

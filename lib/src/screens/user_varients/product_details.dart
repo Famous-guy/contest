@@ -427,235 +427,243 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         String remainingTime =
             CountdownUtil.getRemainingTime(widget.targetTime);
 
-        return Scaffold(
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Image.asset("assets/images/InfoSquare.png"),
-              )
-            ],
-            centerTitle: true,
-            title: Text(
-              "Product",
-              style: PageService.headerStyle,
+        return Center(
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: 600, // Adjust the max width as needed
             ),
-          ),
-          body: SafeArea(
-            child: Stack(
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                        child: Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 10,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 11, horizontal: 31),
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(242, 7, 50, 1)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${widget.tapCount} of ${start} remaining',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(
-                                      255,
-                                      255,
-                                      255,
-                                      1,
+            child: Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Image.asset("assets/images/InfoSquare.png"),
+                  )
+                ],
+                centerTitle: true,
+                title: Text(
+                  "Product",
+                  style: PageService.headerStyle,
+                ),
+              ),
+              body: SafeArea(
+                child: Stack(
+                  children: [
+                    CustomScrollView(
+                      slivers: [
+                        SliverToBoxAdapter(
+                            child: Container(
+                          padding: const EdgeInsets.only(
+                            bottom: 10,
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 11, horizontal: 31),
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(242, 7, 50, 1)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${widget.tapCount} of ${start} remaining',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(
+                                          255,
+                                          255,
+                                          255,
+                                          1,
+                                        ),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (canJoinContest) {
-                                      return;
-                                    } else {
-                                      join(context, homeProvider);
-                                    }
-                                  },
-                                  child: canJoinContest
-                                      ? Text(
-                                          'Joined Contest',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                              255,
-                                              255,
-                                              255,
-                                              1,
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (canJoinContest) {
+                                          return;
+                                        } else {
+                                          join(context, homeProvider);
+                                        }
+                                      },
+                                      child: canJoinContest
+                                          ? Text(
+                                              'Joined Contest',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                  255,
+                                                  255,
+                                                  255,
+                                                  1,
+                                                ),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )
+                                          : Text(
+                                              tapCounter > 0
+                                                  ? 'Buy Taps'
+                                                  : 'Join Contest',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                  255,
+                                                  255,
+                                                  255,
+                                                  1,
+                                                ),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                             ),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w700,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 17, right: 17, top: 16),
+                                child: ListTile(
+                                  trailing: canJoinContest
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            joinContestModal(context);
+                                          },
+                                          child: CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage:
+                                                NetworkImage('${widget.image}'),
                                           ),
                                         )
-                                      : Text(
-                                          tapCounter > 0
-                                              ? 'Buy Taps'
-                                              : 'Join Contest',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                              255,
-                                              255,
-                                              255,
-                                              1,
+                                      : Column(children: [
+                                          GestureDetector(
+                                              onTap: () {
+                                                Share.share(
+                                                  'Join the current contest https://contest-api.100pay.co/?contestid=${widget.contestId}',
+                                                  subject: 'Look what I made!',
+                                                );
+                                              },
+                                              child: ImageIcon(
+                                                  color: Color.fromRGBO(
+                                                      242, 7, 50, 1),
+                                                  AssetImage(
+                                                      'assets/images/sharing.png'))),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            'Share',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              color: Color.fromRGBO(
+                                                112,
+                                                112,
+                                                112,
+                                                1,
+                                              ),
                                             ),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w700,
                                           ),
-                                        ),
+                                        ]),
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: Colors.red,
+                                    backgroundImage: NetworkImage(
+                                        'https://robohash.org/$_username.png?size=50x50&set=set1'),
+                                    // child: Image.network(
+                                    //     'https://robohash.org/$_username.png?size=100x100&set=set1'),
+                                  ),
+                                  subtitle: Text(
+                                    "Product ID: ${widget.productId}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        color: AppColor.gray8),
+                                  ),
+                                  title: Text(
+                                    "${_username}",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColor.gray9),
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              PageService.textSpace,
+                              canJoinContest && isConnected
+                                  ? Tap()
+                                  : product(context, remainingTime),
+                              PageService.textSpaceL,
+                              TapButton(context, homeProvider, search),
+                              PageService.textSpacexL,
+                              MessageField(),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 17, right: 17, top: 16),
-                            child: ListTile(
-                              trailing: canJoinContest
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        joinContestModal(context);
-                                      },
-                                      child: CircleAvatar(
-                                        radius: 30,
-                                        backgroundImage:
-                                            NetworkImage('${widget.image}'),
-                                      ),
-                                    )
-                                  : Column(children: [
-                                      GestureDetector(
-                                          onTap: () {
-                                            Share.share(
-                                              'Join the current contest https://contest-api.100pay.co/?contestid=${widget.contestId}',
-                                              subject: 'Look what I made!',
-                                            );
-                                          },
-                                          child: ImageIcon(
-                                              color:
-                                                  Color.fromRGBO(242, 7, 50, 1),
-                                              AssetImage(
-                                                  'assets/images/sharing.png'))),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        'Share',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: Color.fromRGBO(
-                                            112,
-                                            112,
-                                            112,
-                                            1,
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                              contentPadding: EdgeInsets.zero,
-                              leading: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.red,
-                                backgroundImage: NetworkImage(
-                                    'https://robohash.org/$_username.png?size=50x50&set=set1'),
-                                // child: Image.network(
-                                //     'https://robohash.org/$_username.png?size=100x100&set=set1'),
-                              ),
-                              subtitle: Text(
-                                "Product ID: ${widget.productId}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                    color: AppColor.gray8),
-                              ),
-                              title: Text(
-                                "${_username}",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColor.gray9),
-                              ),
-                            ),
-                          ),
-                          PageService.textSpace,
-                          canJoinContest && isConnected
-                              ? Tap()
-                              : product(context, remainingTime),
-                          PageService.textSpaceL,
-                          TapButton(context, homeProvider, search),
-                          PageService.textSpacexL,
-                          MessageField(),
-                        ],
-                      ),
-                    ))
-                  ],
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        left: 15, top: 15, right: 12, bottom: 5),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            // readOnly: canJoinContest ? false : true,
-                            controller: _messageController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              filled: true,
-                              isDense: true,
-                              fillColor: const Color(0xffF1F1F3),
-                              hintText: 'Add a comment',
-                              hintStyle: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: AppColor.gray4,
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 15),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(
-                                    color: Color(0xffF1F1F3), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(
-                                    color: Color(0xffF1F1F3), width: 1),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: _sendMessage,
-                          child: CircleAvatar(
-                            backgroundColor: AppColor.primaryColor,
-                            child: const Icon(Icons.arrow_upward),
-                          ),
-                        )
+                        ))
                       ],
                     ),
-                  ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 15, top: 15, right: 12, bottom: 5),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                // readOnly: canJoinContest ? false : true,
+                                controller: _messageController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  filled: true,
+                                  isDense: true,
+                                  fillColor: const Color(0xffF1F1F3),
+                                  hintText: 'Add a comment',
+                                  hintStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.gray4,
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 15),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xffF1F1F3), width: 1),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xffF1F1F3), width: 1),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            GestureDetector(
+                              onTap: _sendMessage,
+                              child: CircleAvatar(
+                                backgroundColor: AppColor.primaryColor,
+                                child: const Icon(Icons.arrow_upward),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
+              // }),
             ),
           ),
-          // }),
         );
       }
     });

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 var navKey = GlobalKey<NavigatorState>();
+
 ///Navigator to the next page
 Future nextPage(BuildContext context, {Widget? page}) {
   return Navigator.pushReplacement(

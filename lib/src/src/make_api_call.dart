@@ -12,6 +12,8 @@ import 'package:http/http.dart' as http;
 // import 'package:hundredpay/src/hundred_pay_response_model.dart';
 
 class MakeApiCall {
+  // String? responses;
+  static var respons;
   static Future makePayment({
     required String amount,
     required BuildContext context, // Add context parameter
@@ -35,11 +37,14 @@ class MakeApiCall {
               "amount": amount,
             },
           }));
-      var respons = json.decode(response.body);
+      respons = json.decode(response.body);
       print(respons);
       print(response.body);
       if (response.statusCode.toString()[0] == "2") {
-        print(respons);
+        print('this is ${respons}');
+        // response = respons;
+        // print(response);
+        // print('{response}');
         return respons;
         // return HundredPayResponseModel.fromJson(jsonDecode(response.body));
       } else {

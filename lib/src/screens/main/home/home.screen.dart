@@ -143,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Image.network(
                                   "${contest.videoUrl}",
                                   fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width,
                                   height: MediaQuery.of(context).size.height,
                                 ),
                                 Container(

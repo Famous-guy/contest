@@ -456,6 +456,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SendPos with ChangeNotifier {
+  bool _isLoading = false;
+  bool _hasData = false;
+  bool _hasError = false;
+  bool _isEmpty = false;
+  bool get isLoading => _isLoading;
+  bool get hasData => _hasData;
+  bool get hasError => _hasError;
+  bool get isEmpty => _isEmpty;
   Future<bool> sendPos(
     BuildContext context,
     String accountId,
@@ -465,11 +473,18 @@ class SendPos with ChangeNotifier {
       var url = Uri.parse('https://api.100pay.co/api/v1/send-pos-otp');
       var body = {"accountId": accountId};
       var headers = {"Content-Type": "application/json"};
-
+      _isLoading = true;
+      print(_isLoading);
+      print(_hasData);
       var response =
           await http.post(url, body: jsonEncode(body), headers: headers);
       print(response.body);
       if (response.statusCode == 200) {
+        _isLoading = false;
+
+        _hasData = true;
+        print(_isLoading);
+        print(_hasData);
         var responseData = response.body;
         print(response.body);
         await saveAccountIdToPrefs(accountId);
@@ -501,6 +516,12 @@ class SendPos with ChangeNotifier {
         // }
         return false;
       } else {
+        _isLoading = false;
+        _hasError = true;
+        _hasData = false;
+        print(_isLoading);
+        print(_hasData);
+        print(_hasError);
         showDialog(
           context: context,
           barrierDismissible: false, // Prevents dismissing by tapping outside
